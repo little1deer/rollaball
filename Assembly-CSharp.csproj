@@ -50,13 +50,24 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\IRotation.cs" />
+     <Compile Include="Assets\Scripts\IFlicker.cs" />
      <Compile Include="Assets\Scripts\ScoreScreenViewer.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\GoodBonus.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
+     <Compile Include="Assets\Scripts\IFly.cs" />
      <Compile Include="Assets\Scripts\PlayerBall.cs" />
      <Compile Include="Assets\Scripts\ScoreController.cs" />
      <Compile Include="Assets\Scripts\InteractiveObject.cs" />
+     <Compile Include="Assets\Scripts\BadBonus.cs" />
+     <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\BonusScore.cs" />
+     <Compile Include="Assets\Scripts\Trap.cs" />
+     <Compile Include="Assets\Scripts\TrapDelay.cs" />
+     <Compile Include="Assets\Scripts\BonusKey.cs" />
+     <Compile Include="Assets\Scripts\KeyController.cs" />
+     <Compile Include="Assets\Scripts\FinishPickUp.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/1/projects/rollaball/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
@@ -83,6 +94,9 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/1/projects/rollaball/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>D:/1/projects/rollaball/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

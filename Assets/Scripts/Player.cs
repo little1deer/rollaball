@@ -8,27 +8,23 @@ public class Player : MonoBehaviour
     private float _speed= 10.0f;
     private float _forceJump= 7.0f;
     private bool _onGround = false;
-    private new Rigidbody _rigidbody;
-    private void Start()
-    {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
-
+    public Rigidbody Rigidbody;
+   
     protected void Move()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
             
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        Vector3 movement = new Vector3(moveHorizontal * _speed, 0.0f, moveVertical * _speed);
             
-        _rigidbody.AddForce(movement * _speed);
+        Rigidbody.AddForce(movement);
     }
     
     protected void Jump()
     {
         if (Input.GetButtonDown("Jump")&&_onGround)
         {
-            _rigidbody.AddForce(Vector3.up * _forceJump,ForceMode.Impulse);
+            Rigidbody.AddForce(Vector3.up * _forceJump,ForceMode.Impulse);
         }
     }
 
@@ -47,37 +43,37 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("BonusScore"))
+        if (other.TryGetComponent(out InteractiveObject interactiveObject))
         {
-            other.GetComponent<GoodBonus>().scoreController.Score += 200;
-            Destroy(other.gameObject);
-        }
-        if (other.CompareTag("Trap"))
-        {
-            other.GetComponent<GoodBonus>().scoreController.Score -=200;
-            Destroy(other.gameObject);
-        }
-        if (other.CompareTag("TrapDealy"))
-        {
-            _speed-=5;
-        }
-        if (other.CompareTag("BonusNoclip"))
-        {
-            //
-            Destroy(other.gameObject);
+            switch (interactiveObject)
+            {
+                case BonusScore bonusScore :
+                    bonusScore.GetComponent<GoodBonus>().scoreController.Score += 200;
+                    Destroy(bonusScore.gameObject);
+                    break;
+                case Trap trap :
+                    trap.GetComponent<BadBonus>().scoreController.Score -= 200;
+                    break;
+                case TrapDelay trapDelay :
+                    _speed -= trapDelay.trapDelaySpeed;
+                    break;
+                case BonusKey bonusKey :
+                    bonusKey.KeyController.Keys++;
+                    Destroy(bonusKey.gameObject);
+                    break; 
+                case FinishPickUp finishPickUp :
+                    if (finishPickUp.scoreController.screenBar.KeyController.Keys == 2)
+                    {
+                        finishPickUp.scoreController.screenBar.YouWin.enabled = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("TrapDealy"))
-        {
-            _speed+=5;
-        }
-    }
-
     public float GetSpeedPlayer()
     {
-        return _rigidbody.velocity.magnitude;
+        return Rigidbody.velocity.magnitude;
     }
 }
